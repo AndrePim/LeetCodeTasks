@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h>  
+#include <stdlib.h>
 
 // Дана строка, состоящая из букв 'X', 'Y' и 'O'. Необходимо найти кратчайшее
 // расстояние между буквами 'X' и 'Y', либо вывести 0, если 'X' либо 'Y'
@@ -26,7 +26,7 @@ size_t minDistance(const char *input)
     int count_Y = 0;
     int i = 0;
     int distance = 0;
-    while (input[i] != '\n')
+    while (input[i] != '\0')
     {
         if (input[i] == 'X' && count_X < MAX_SIZE)
         {
@@ -41,21 +41,21 @@ size_t minDistance(const char *input)
         i++;
     }
 
-    // Минимальное расстояние 
+    // Минимальное расстояние
     if (count_X == 0 || count_Y == 0) // Если один из символов X, Y не найден
     {
-        min_distance = 0; 
+        min_distance = 0;
     }
     else
     {
         min_distance = abs(index_X[0] - index_Y[0]);
         for (int x = 0; x < count_X; x++)
         {
-            
+
             for (int y = 0; y < count_Y; y++)
             {
                 distance = abs(index_X[x] - index_Y[y]);
-                
+
                 if (distance < min_distance)
                 {
                     min_distance = distance;
@@ -68,7 +68,7 @@ size_t minDistance(const char *input)
 }
 
 int main()
-{ 
+{
     printf("Test_1_min_distance =  %d\n", minDistance("YY"));
     printf("Test_2_min_distance =  %d\n", minDistance("XX"));
     printf("Test_3_min_distance =  %d\n", minDistance("XY"));

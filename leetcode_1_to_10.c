@@ -259,23 +259,100 @@ void test_addTwoNumbers()
 // Задача 3: Longest Substring Without Repeating Characters
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
-int lengthOfLongestSubstring(char* s) 
+// Подход 1: Скользящее окно с флаговым массивом
+int lengthOfLongestSubstring(char *s)
 {
+    // s = "abcabcbb"
+    int max_substring = 0;
 
+    char seen[256] = {0};
+    int start = 0;
+    int end = 0;
+    if (s[0] == '\0')
+    {
+        max_substring = 0;
+    }
+    while (s[end] != '\0')
+    {
+        if (seen[s[end]] == 0)
+        {
+            seen[s[end]] = 1;
+        }
+        else
+        {
+            while (seen[s[end]])
+            {
+                seen[s[start]] = 0;
+                start++;
+            }
+            seen[s[end]] = 1;
+        }
+        if ((end - start) + 1 > max_substring)
+        {
+            max_substring = (end - start) + 1;
+        }
+        printf("Window: %.*s, length=%d, max_substring=%d\n", end - start + 1, s + start, end - start + 1, max_substring);
+        end++;
+    }
 
+    return max_substring;
 }
 
+// Подход 2: Скользящее окно с массивом последних позиций
+int lengthOfLongestSubstring_another(char *s)
+{
+    // s = "abcabcbb"
+    int max_substring = 0;
 
+    int last_seen[256] = {0};
+    int start = 0;
+    int end = 0;
+    if (s[0] == '\0')
+    {
+        max_substring = 0;
+    }
+    while (s[end] != '\0')
+    {
+        if (last_seen[s[end]] >= start)
+        {
+            start = last_seen[s[end]] + 1;
+        }
+        last_seen[s[end]] = end;
+        if (end - start + 1 > max_substring)
+        {
+            max_substring = end - start + 1;
+        }
+        end++;
+    }
+
+    return max_substring;
+}
+
+// Задача 4: Median of Two Sorted Arrays
+// https://leetcode.com/problems/median-of-two-sorted-arrays/description/
+// Input: nums1 = [1,2], nums2 = [3,4]
+// Output: 2.50000
+// Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5
+double findMedianSortedArrays(int *nums1, int nums1Size, int *nums2, int nums2Size)
+{
+    double median = 0;
+    printf("num1Size %d\n", nums1Size);
+    printf("num2Size %d\n", nums2Size);
+    int size_merged_array = nums1Size + nums2Size;
+    printf("num2Size %d\n", size_merged_array);
+    int merged_array[size_merged_array];
+    return size_merged_array;
+}
 
 int main()
 {
     // Тестирование всех задач
-    testTwoSum();
-    // Вызовы тестов для задач 2–10, когда они будут добавлены
-    // testFunctionName(); // Для задачи 2
-    // ...
-    // Тест 1: l1 = [2,4,3], l2 = [5,6,4] → [7,0,8]
-    test_addTwoNumbers();
-
+    // testTwoSum();                                                          // Task 1
+    // test_addTwoNumbers();                                                  // Task 2
+    // printf("Test_1 Task_3 =  %d\n", lengthOfLongestSubstring("abcabcbb")); // Task 3_Подход 1
+    // printf("Test_1 Task_3 =  %d\n", lengthOfLongestSubstring_another("abcabcbb")); // Task 3_Подход 2
+    int nums1[2] = {1,2}; 
+    int nums2[2] = {3,4};
+    printf("Test_1 Task_4 =  %d\n", findMedianSortedArrays(nums1, 2, nums2, 2)); // Task 3_Подход 2
     return 0;
 }
