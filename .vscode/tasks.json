@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-and-run-32bit",
+            "type": "shell",
+            "command": "C:\\msys64\\mingw32\\bin\\gcc.exe -m32 main_copy.c -o main-32bit.exe -Wall; D:\\ManyWork\\Programming\\LeetCode\\leet_code_C\\LeetCodeTasks\\main-32bit.exe",
+            "options": {
+                "cwd": "D:\\ManyWork\\Programming\\LeetCode\\leet_code_C\\LeetCodeTasks"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$gcc",
+            "detail": "Compile and run main.c for 32-bit"
+        },
+        {
+            "label": "build-and-run-64bit",
+            "type": "shell",
+            "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -m64 main_copy.c -o main-64bit.exe -Wall; D:\\ManyWork\\Programming\\LeetCode\\leet_code_C\\LeetCodeTasks\\main-64bit.exe",
+            "options": {
+                "cwd": "D:\\ManyWork\\Programming\\LeetCode\\leet_code_C\\LeetCodeTasks"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+            "detail": "Compile and run main.c for 64-bit"
+        }
+    ]
+}

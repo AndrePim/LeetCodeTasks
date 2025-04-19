@@ -1,0 +1,281 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+// Задача 1: Two Sum
+// https://leetcode.com/problems/two-sum/
+int *twoSum(int *nums, int numsSize, int target, int *returnSize)
+{
+    static int result[2];
+    for (uint32_t i = 0; i < numsSize - 1; i++)
+    {
+        for (uint32_t j = i + 1; j < numsSize; j++)
+        {
+            if (nums[i] + nums[j] == target)
+            {
+                result[0] = i;
+                result[1] = j;
+                *returnSize = 2;
+                return result;
+            }
+        }
+    }
+    *returnSize = 0; // Устанавливаем returnSize в 0, если решение не найдено
+    return NULL;
+}
+
+// Функция для вывода массива
+void printArray(int *arr, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+}
+
+// Функция для тестирования Two Sum
+void testTwoSum()
+{
+    printf("=== Задача 1: Two Sum ===\n");
+
+    // Пример 1
+    int nums1[] = {2, 7, 11, 15};
+    int size1 = sizeof(nums1) / sizeof(nums1[0]);
+    int target1 = 9;
+    int returnSize1;
+    printf("Вход: nums = [");
+    printArray(nums1, size1);
+    printf("], target = %d\n", target1);
+    int *result1 = twoSum(nums1, size1, target1, &returnSize1);
+    if (returnSize1 == 2)
+    {
+        printf("Выход: [%d, %d]\n", result1[0], result1[1]);
+    }
+    else
+    {
+        printf("Решение не найдено\n");
+    }
+
+    // Пример 2
+    int nums2[] = {3, 2, 4};
+    int size2 = sizeof(nums2) / sizeof(nums2[0]);
+    int target2 = 6;
+    int returnSize2;
+    printf("\nВход: nums = [");
+    printArray(nums2, size2);
+    printf("], target = %d\n", target2);
+    int *result2 = twoSum(nums2, size2, target2, &returnSize2);
+    if (returnSize2 == 2)
+    {
+        printf("Выход: [%d, %d]\n", result2[0], result2[1]);
+    }
+    else
+    {
+        printf("Решение не найдено\n");
+    }
+
+    // Пример 3
+    int nums3[] = {3, 3};
+    int size3 = sizeof(nums3) / sizeof(nums3[0]);
+    int target3 = 6;
+    int returnSize3;
+    printf("\nВход: nums = [");
+    printArray(nums3, size3);
+    printf("], target = %d\n", target3);
+    int *result3 = twoSum(nums3, size3, target3, &returnSize3);
+    if (returnSize3 == 2)
+    {
+        printf("Выход: [%d, %d]\n", result3[0], result3[1]);
+    }
+    else
+    {
+        printf("Решение не найдено\n");
+    }
+    printf("\n");
+}
+
+// Задача 2: Add two numbers
+// https://leetcode.com/problems/add-two-numbers/description/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode
+{
+    int val;
+    struct ListNode *next;
+};
+
+// Функция для создания узла (для удобства тестирования)
+struct ListNode *createNode(int val)
+{
+    struct ListNode *node = (struct ListNode *)malloc(sizeof(struct ListNode));
+    node->val = val;
+    node->next = NULL;
+    return node;
+}
+
+// Функция для создания списка из массива (для тестирования)
+struct ListNode *createList(int *arr, int size)
+{
+    if (size == 0)
+        return NULL;
+    struct ListNode *head = createNode(arr[0]);
+    struct ListNode *current = head;
+    for (int i = 1; i < size; i++)
+    {
+        current->next = createNode(arr[i]);
+        current = current->next;
+    }
+    return head;
+}
+
+// Функция для вывода списка (для отладки и проверки)
+void printList(struct ListNode *head)
+{
+    printf("[");
+    while (head != NULL)
+    {
+        printf("%d", head->val);
+        head = head->next;
+        if (head != NULL)
+            printf(",");
+    }
+    printf("]\n");
+}
+
+// Функция для освобождения памяти списка
+void freeList(struct ListNode *head)
+{
+    struct ListNode *current = head;
+    while (current != NULL)
+    {
+        struct ListNode *temp = current;
+        current = current->next;
+        free(temp);
+    }
+}
+
+struct ListNode *addTwoNumbers(struct ListNode *l1, struct ListNode *l2)
+{
+    struct ListNode *result = NULL;  // Указатель на начало результата
+    struct ListNode *current = NULL; // Указатель для добавления узлов
+    int carry = 0;                   // Перенос
+    while (l1 != NULL || l2 != NULL || carry)
+    {
+        int sum = carry;
+        if (l1 != NULL)
+        {
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        if (l2 != NULL)
+        {
+            sum += l2->val;
+            l2 = l2->next;
+        }
+
+        carry = sum / 10;     // Новый перенос
+        int digit = sum % 10; // Цифра для текущего узла
+        // Создание нового узла
+        struct ListNode *newNode = malloc(sizeof(struct ListNode));
+        newNode->val = digit;
+        newNode->next = NULL;
+
+        // Добавление узла в результат
+        if (result == NULL)
+        {
+            result = newNode;
+            current = newNode;
+        }
+        else
+        {
+            current->next = newNode;
+            current = newNode;
+        }
+    }
+
+    return result;
+}
+
+void test_addTwoNumbers()
+{
+    // Тест 1: l1 = [2,4,3], l2 = [5,6,4] → [7,0,8]
+    printf("Тест 1:\n");
+    int arr1[] = {2, 4, 3};
+    int arr2[] = {5, 6, 4};
+    struct ListNode *l1 = createList(arr1, 3);
+    struct ListNode *l2 = createList(arr2, 3);
+    printf("l1 = ");
+    printList(l1);
+    printf("l2 = ");
+    printList(l2);
+    struct ListNode *result = addTwoNumbers(l1, l2);
+    printf("Результат = ");
+    printList(result);
+    freeList(l1);
+    freeList(l2);
+    freeList(result);
+
+    // Тест 2: l1 = [0], l2 = [0] → [0]
+    printf("\nТест 2:\n");
+    int arr3[] = {0};
+    int arr4[] = {0};
+    l1 = createList(arr3, 1);
+    l2 = createList(arr4, 1);
+    printf("l1 = ");
+    printList(l1);
+    printf("l2 = ");
+    printList(l2);
+    result = addTwoNumbers(l1, l2);
+    printf("Результат = ");
+    printList(result);
+    freeList(l1);
+    freeList(l2);
+    freeList(result);
+
+    // Тест 3: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9] → [8,9,9,9,0,0,0,1]
+    printf("\nТест 3:\n");
+    int arr5[] = {9, 9, 9, 9, 9, 9, 9};
+    int arr6[] = {9, 9, 9, 9};
+    l1 = createList(arr5, 7);
+    l2 = createList(arr6, 4);
+    printf("l1 = ");
+    printList(l1);
+    printf("l2 = ");
+    printList(l2);
+    result = addTwoNumbers(l1, l2);
+    printf("Результат = ");
+    printList(result);
+    freeList(l1);
+    freeList(l2);
+    freeList(result);
+}
+
+// Задача 3: Longest Substring Without Repeating Characters
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+int lengthOfLongestSubstring(char* s) 
+{
+
+
+}
+
+
+
+int main()
+{
+    // Тестирование всех задач
+    testTwoSum();
+    // Вызовы тестов для задач 2–10, когда они будут добавлены
+    // testFunctionName(); // Для задачи 2
+    // ...
+    // Тест 1: l1 = [2,4,3], l2 = [5,6,4] → [7,0,8]
+    test_addTwoNumbers();
+
+    return 0;
+}

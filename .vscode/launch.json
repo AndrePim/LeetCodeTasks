@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run 32-bit",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main-32bit.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "build-32bit" // Связь с 32-битной задачей
+        },
+        {
+            "name": "Run 64-bit",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main-64bit.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "build-64bit" // Связь с 64-битной задачей
+        }
+    ]
+}
