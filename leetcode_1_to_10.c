@@ -341,7 +341,64 @@ double findMedianSortedArrays(int *nums1, int nums1Size, int *nums2, int nums2Si
     int size_merged_array = nums1Size + nums2Size;
     printf("num2Size %d\n", size_merged_array);
     int merged_array[size_merged_array];
-    return size_merged_array;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+
+    if(nums1Size < 0 || nums1Size > 1000 || nums2Size < 0 || nums2Size > 1000)
+    {
+        median = 0;
+    } 
+
+    if(nums1Size+nums1Size <= 1)
+    {
+        median = 0;
+    }
+
+    while (i < nums1Size && j < nums2Size)
+    {
+        if (nums1[i] <= nums2[j])
+        {
+            merged_array[k++] = nums1[i++];
+            printf("merged_array[%d] %d\n", k, merged_array[k - 1]);
+        }
+        else
+        {
+            merged_array[k++] = nums2[j++];
+            printf("else_merged_array[%d] %d\n", k, merged_array[k]);
+        }
+    }
+    printf("j %d\n", j);
+    printf("k %d\n", k);
+    while (i < nums1Size)
+    {
+        merged_array[k++] = nums1[i++];
+        printf("while (i < nums1Size)_merged_array %d\n", merged_array[k - 1]);
+    }
+
+    while (j < nums2Size)
+    { 
+        merged_array[k++] = nums2[j++];
+        printf("while (j <nums2Size)_merged_array %d\n", merged_array[k - 1]);
+        printf("k %d\n", k);
+    }
+
+    for (int x = 0; x < size_merged_array; x++)
+    {
+        printf("lul-merged_array %d\n", merged_array[x]);
+    }
+
+
+    if(size_merged_array % 2 != 0)
+    { 
+        median = merged_array[size_merged_array / 2];
+    }
+    else
+    {
+        median = (merged_array[(size_merged_array / 2) - 1] + merged_array[size_merged_array / 2]) / 2.0;
+    }
+
+    return median;
 }
 
 int main()
@@ -351,8 +408,12 @@ int main()
     // test_addTwoNumbers();                                                  // Task 2
     // printf("Test_1 Task_3 =  %d\n", lengthOfLongestSubstring("abcabcbb")); // Task 3_Подход 1
     // printf("Test_1 Task_3 =  %d\n", lengthOfLongestSubstring_another("abcabcbb")); // Task 3_Подход 2
-    int nums1[2] = {1,2}; 
-    int nums2[2] = {3,4};
-    printf("Test_1 Task_4 =  %d\n", findMedianSortedArrays(nums1, 2, nums2, 2)); // Task 3_Подход 2
+    int nums1[2] = {1,2};
+    int nums2[1] = {3,4};
+    // int nums1[5] = {0,0,0,0,0};
+    // int nums2[7] = {-1,0,0,0,0,0,1};
+    printf("Test_1 Task_4 =  %f\n", findMedianSortedArrays(nums1, 2, nums2, 2)); // Task 4
+    
+
     return 0;
 }
